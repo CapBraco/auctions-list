@@ -11,7 +11,8 @@ class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
     name = models.CharField(max_length=64)
     description = models.TextField(max_length=500)
-    image_url = models.CharField(max_length=255)
+    category = models.CharField(max_length=20, default='other')
+    image = models.ImageField(upload_to='images/', blank=True, default='images/default.svg')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

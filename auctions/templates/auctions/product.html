@@ -1,0 +1,33 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <div class="main">
+        <div class="product">
+            <h3 class="title">{{ product.name }}</h3>
+            <div class='image-container'>
+                <img class='image' src="{{ product.image.url }}" alt="{{ product.name }}"/>
+                <aside>{{ product.description }}</aside>
+            </div>
+            <h6>Listed by: {{ product.user}}</h6>
+            <h6>Created: {{ product.created_at }}
+        </div>
+        <div class='auction'>
+            {% if product.auction %}
+            <h5>Starting Price: ${{ product.auction.starting_price}}</h5>
+            <h2>{{ product.auction.get_auction_status_display }}
+            <p>Highest Bid:</p>
+            <h2>${{ product.auction.current_price }}</h2>
+            <h5>Created at: {{ product.auction.created_at }}</h5>
+            <p>End Time: {{product.auction.end_time }}</p>
+            <h6>Last modified: {{ product.auction.updated_at }}</h6>
+        </div>
+        {% else %}
+        <p>This product is not in the auction list yet</p>
+        {% endif %}
+        <div class='description-extended'>
+            <p>{% lorem 3 %}</p>
+        </div>
+    </div>
+
+{% endblock %}

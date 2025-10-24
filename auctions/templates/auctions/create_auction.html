@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+<form method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="product_id" value="{{ product.id }}">
+
+  <label for="starting_price">Starting Price:</label>
+  <input type="number" name="starting_price" id="starting_price" required>
+
+  <label for="auction_status">Auction Status:</label>
+  <select name="auction_status" id="auction_status">
+      <option value="AC">Active</option>
+      <option value="CL">Closed</option>
+      <option value="SO">Sold</option>
+  </select>
+
+  <label for="end_time">End Time:</label>
+  <input type="datetime-local" name="end_time" id="end_time">
+
+  <button type="submit">Create Auction</button>
+</form>
+{% endblock %}
