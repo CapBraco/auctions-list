@@ -1,33 +1,136 @@
 {% extends "auctions/layout.html" %}
+{% load humanize %}
 
 {% block body %}
+<div class="main">
 
-    <div class="main">
-        <div class="product">
-            <h3 class="title">{{ product.name }}</h3>
-            <div class='image-container'>
-                <img class='image' src="{{ product.image.url }}" alt="{{ product.name }}"/>
-                <aside>{{ product.description }}</aside>
-            </div>
-            <h6>Listed by: {{ product.user}}</h6>
-            <h6>Created: {{ product.created_at }}
+    <!-- PRODUCT INFO -->
+    <div class="product product--detail">
+        <h2 class="title">{{ product.name }}</h2>
+        <div class='image-container'>
+            <img class='image' src="{{ product.image.url }}" alt="{{ product.name }}"/>
         </div>
-        <div class='auction'>
-            {% if product.auction %}
-            <h5>Starting Price: ${{ product.auction.starting_price}}</h5>
-            <h2>{{ product.auction.get_auction_status_display }}
-            <p>Highest Bid:</p>
-            <h2>${{ product.auction.current_price }}</h2>
-            <h5>Created at: {{ product.auction.created_at }}</h5>
-            <p>End Time: {{product.auction.end_time }}</p>
-            <h6>Last modified: {{ product.auction.updated_at }}</h6>
-        </div>
-        {% else %}
-        <p>This product is not in the auction list yet</p>
-        {% endif %}
-        <div class='description-extended'>
-            <p>{% lorem 3 %}</p>
+        <!-- WATCHLIST BUTTON -->
+        <div class='button button--add-remove'>
+            <form action="{% url 'watchlist' product.id %}" method='POST'>
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                    {% if user_liked %}
+                        <button class='like' type='submit'>Remove from watchlist</button>   
+                    {% else %}
+                        <button class='dislike' type='submit'>⭐ Add to Watchlist</button>             
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}">Login or Register.</a>
+                {% endif %}
+            </form>
         </div>
     </div>
 
+    <!-- AUCTION INFO -->
+    {% if product.auction %}
+    <div class='auction'>
+        {% if auction.auction_status == 'AC' %}
+        <h3>{{ product.auction.get_auction_status_display }}</h3>
+        <hr>
+        <div class='info'>
+            <h2>Highest Bid: ${{ auction.current_price|floatformat:2|intcomma }}</h2>
+            <h3>Starting Price: ${{ auction.starting_price|floatformat:2|intcomma}}</h3>
+            {% if highest_bid.user %}
+                <h4>Offered by: {{ highest_bid.user }}</h4>
+            {% else %}
+            <h4>No offers yet.</h4>
+            {% endif %}
+        </div>
+        {% if user.is_authenticated %}
+        <form action="{% url 'make_bid' product.auction.id %}" method='post'>
+            {% csrf_token %}
+            <div class='button button--auction'>
+                <span>$<span>
+                <input type='number' name='bid'>
+                <button type='submit'>Make a bid</button>
+            </div>
+        </form>
+        {% else %}
+        <h4>Log in or register to make a bid</h4>
+        {% endif %}
+    {% else %}
+    <h3>This auction is {{ product.auction.get_auction_status_display }}
+        {% if user == highest_bid.user %}
+        <div class='winner'>
+            <h2>⭐ Congrats, {{ user }}! ⭐</h2>
+            <h3>You have won this bid!</h3>
+        </div>
+        {% endif %}
+    </h3>
+    {% endif %}
+        
+        
+        {% if user.id == product.user.id %}
+        <hr>
+        <div class='update-status'>
+        <form method='POST'>
+            {% csrf_token %}
+            {{ auction_form.as_p }}
+            <button type='submit' name='auction-submit'>Update</button>
+        </form>
+        </div>
+        {% endif %}
+        <hr>
+        <div class='meta-info'>
+        <h4><span>End Time:</span> {{ auction.end_time }}</h4>
+        <h4><span>Last modified:</span> {{ auction.updated_at }}</h4>
+        <h4><span>Created at:</span> {{ auction.created_at }}</h4>
+        {% if user.id == product.user.id %}
+            <h4>By: <span>You</span></h4>
+        {% else %}
+            <h4>By: <span>{{ product.user }}</span></h4>
+        {% endif %}
+        </div>
+        <hr>
+        <p>Categories:
+        {% for category in product.categories.all %}
+            <a href="{% url 'category_detail' category.name %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            Others.
+        {% endfor %}
+        </p>
+    </div>
+    {% endif %}
+
+    <!-- EXTENDED DESCRIPTION -->
+    <div class='description-extended'>
+        <h3>Detail</h3>
+        <p>{{ product.long_description }}</p>
+    </div>
+
+    <!-- COMMENTS -->
+    <blockquote class='comments'>
+        {% if comments %}
+            {% for comment in comments %}
+            <div class='comment'>
+                <div class='picture'>
+                    <img href="" alt="" />
+                </div>
+                <h4> {{ comment.user }}</h4>
+                <p>{{ comment.comment }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No comments yet.</p>
+        {% endif %}
+    </blockquote>
+    <div class='comment-post'>
+        {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" name='comment-submit'>Post</button>
+        </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Login to post a comment.</a></p>
+        {% endif %}
+    </div>
+
+</div> <!-- End main -->
 {% endblock %}

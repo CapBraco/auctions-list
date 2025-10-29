@@ -1,0 +1,304 @@
+body {
+    margin: 0 auto;
+    padding: 4vmin;
+    overflow-x: hidden;
+}
+h2{
+    font-weight: bold;
+    font-size: 5vmin;
+}
+h3{
+    font-weight: 500;
+    font-size: 4vmin;
+}
+h4{
+    font-weight: 100;
+    font-size: 2vmin;
+}
+span{
+    font-weight: 400;
+}
+aside{
+    background-color: rgba(176, 174, 174, 0.065);
+    border-radius: 8px;
+    font-weight: 100;
+    font-style: italic;
+}
+/*Elements*/
+.button {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1vmin;
+}
+.button a{
+    text-decoration: none;
+}
+.button button{
+    padding: 1vmin 2vmin;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 0 1px rgba(0, 0, 0, 0.178);
+}
+.label{
+    display: contents;
+}
+/*Main Index*/
+.main {
+    display: flex;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 3vmin;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.075);
+}
+
+.product {
+    padding: 5vmin;
+    margin: 1.5vmin 0;
+    width: 60vmin;
+    border-radius: 7px;
+    flex-grow: 1;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.199);
+    max-width: 90vmin;
+}
+.title {
+    font-size: 4vmin;
+    width: 100%;
+    flex-grow: 0;
+    color: black;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+.image-container{
+    width: 100%;
+    max-height: 100%;
+}
+.image-container img{
+    width: 100%;
+    height: 60vmin;
+    border-radius: 3px;
+    object-fit: cover;
+}
+/*Product Detail*/
+.product--detail{
+    min-width: 50vmin;
+    border-radius: 7px;
+    flex-grow: 1;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.199);
+    max-width: 78vmin;
+}
+.auction{
+    margin: 1vmin 0;
+    min-width: 50vmin;
+    flex-grow: 1;
+    max-width: 78vmin;
+    align-self: center;
+    justify-content: flex-start;
+    border-left: 1px dotted rgba(0, 0, 0, 0.096);
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.info{
+    margin-bottom: 5vmin;
+}
+.button--auction{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 7vmin 0;
+}
+.button--auction button{
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.button--add-remove{
+    margin: 2vmin 0;
+    justify-content: flex-end;
+}
+.button--add-remove button{
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.update-status form{
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.update-status button{
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.update-status p{
+    margin: 0;
+}
+.description-extended{
+    width: 100%;
+    flex-grow: 1;
+    max-width: 100%;
+    padding: 5vmin;
+}
+input[type="number"] {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    width: 120px;
+    font-size: 1rem;
+}
+
+.comments{
+    width: 90%;
+    padding: 2vmin;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vmin;
+}
+.comment{
+    width: 100%;
+    background-color: rgba(176, 174, 174, 0.065);
+    border-radius: 5px;
+    margin: 1vmin 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 2vmin;
+}
+.comment h4{
+    width: 80%;
+    margin-left: 2vmin;
+}
+.comment p{
+    width: 100%;
+    padding: 0vmin 1vmin;
+}
+.picture{
+    width: 8vmin;
+    height: 8vmin;
+    border-radius: 50%;
+    background-color: rgba(176, 174, 174, 0.188);
+}
+.comment-post{
+    padding: 4vmin;
+}
+.comment-post button{
+    padding: 1vmin 2vmin;
+    border: none;
+    border-radius: 10px;
+    float: right;
+}
+.comment-post textarea{
+    height: 15vmin;
+    width: 90%;
+}
+/*Categories*/
+.categories h3{
+    padding: 2vmin;
+    border-radius: 8px;
+    background-color: rgba(176, 174, 174, 0.065);
+    margin: 2vmin 0;
+}
+.categories a{
+    text-decoration: none;
+}
+/*Categories Detail*/
+.main--categories{
+    gap: 1rem;
+    justify-content: flex-start;
+}
+.product--categories{
+    width: 30vmin;
+    max-width: 40vmin;
+}
+.image-container--categories img{
+    height: 35vmin;
+}
+/*Watchlist*/
+.main--watchlist{
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.liked{
+    width: 55vmin;
+    flex-grow: 1;
+    max-width: 90vmin;
+}
+.liked--products{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.bid{
+    background-color: rgba(176, 174, 174, 0.065);
+    padding: 2vmin;
+    margin: 2vmin 0;
+    border-radius: 5px;
+    display: flex;
+}
+.bid img{
+    width: 15vmin;
+    height: 15vmin;
+}
+.bid-description{
+    padding-left: 4vmin;
+}
+/*Create product*/
+.create-product{
+    margin: 5vmin auto;
+    width: 90vmin;
+    padding: 8vmin 5vmin;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.116);
+    display: flex;
+    border-top-right-radius: 15px;
+}
+.create-product form{
+    flex-grow: 1;
+    max-width: 90vmin;
+}
+.create-product form input{
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: rgba(176, 174, 174, 0.065);
+    padding: 2vmin;
+}
+.create-product form label{
+    display: none;
+}
+.create-product form textarea{
+    border: none;
+    width: 100%;
+    background-color: rgba(176, 174, 174, 0.065);
+}
+.create-product #id_description{
+    max-height: 20vmin;
+}
+.create-product #id_image{
+    border-radius: 0;
+}
+.create--auction form label{
+    display: block;
+}
+.meta-info {
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+.meta-info strong {
+    color: #111;
+}

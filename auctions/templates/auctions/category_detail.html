@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+<h3>Products in {{ category.name }}</h3>
+
+{% if products %}
+    <div class="main main--categories">
+    {% for product in products %}
+        {% if product.auction.auction_status == 'AC' %}
+        <div class="product product--categories">
+            <div class='image-container image-container--categories'>
+                <img class='image' src="{{ product.image.url }}" alt="{{ product.name }}"/>
+                <a href="{% url 'product' product.id %}"><h2 class="title">{{ product.name }}</h2><a>
+            </div>
+            <h3>${{product.auction.current_price}}</h3>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+{% else %}
+    <p>No products in this category.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+{% block title %}My Watchlist{% endblock %}
+{% block body %}
+<h3>My Watchlist</h3>
+{% if liked %}
+<hr>
+
+<div class='main main--watchlist'>
+
+    <!-- BLOQUE DE LIKES -->
+    <div class='liked liked--products'>
+        <h2 class='title'>Liked</h2>
+        {% for like in liked %}
+        <div class='product product--watchlist'>
+            <div class='image-container image-container--watchlist'>
+                <img class='image' src='{{ like.product.image.url }}' alt='{{ like.product.name }}'/>
+                <a href="{% url 'product' like.product.id %}">
+                    <h3 class="title">{{ like.product.name }}</h3>
+                </a>
+            </div>
+            <p>{{ like.product.description }}</p>
+            <h4>Created by: {{ like.product.user }}</h4>
+            {% if like.product.auction.auction_status == 'SO' %}
+                {% with highest_bid=like.product.auction.bids.all|dictsortreversed:"amount"|first %}
+                    {% if highest_bid.user == user %}
+                    <div class='winner'>
+                        <h3>⭐ Winner ⭐</h3>
+                        <p>Won with: ${{ highest_bid.amount|floatformat:2|intcomma }}</p>
+                    </div>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+            <!--Button-->
+            <div class='button'>
+                <form action="{% url 'watchlist' like.product.id %}" method='POST'>
+                {% csrf_token %}
+                        <button class='like' type='submit'>Remove</button>
+                </form>
+                    <a href="{% url 'product' like.product.id %}">
+                        <button type='button'>Make a bid</button>
+                    </a>             
+            </div>
+
+        </div>
+        {% empty %}
+        <p>No products in your watchlist</p>
+        {% endfor %}
+    </div>
+
+    <!-- BLOQUE DE BIDS -->
+    <div class='liked'>
+        <h2 class='title'>My Bids</h2>
+        <hr>
+        <div class='bids'>
+
+        {% if user_bids %}
+            {% for bid in user_bids %}
+            <div class='bid'>
+                <img src='{{ bid.auction.product.image.url }}' alt="{{ bid.auction.product.name }}"/>
+                
+                <div class='bid-description'>
+                    <h3>#{{ bid.id }} {{ bid.auction.product.name }}</h3>
+                    <h3>Bid: ${{ bid.amount }}</h3>
+                    <p>Starting auction: ${{ bid.auction.starting_price }}</p>
+                    <p>Finish at: {{ bid.auction.end_time }}</p>
+                    <h4>Status: {{ bid.auction.get_auction_status_display }}</h4>
+                </div>
+            </div>
+            {% empty %}
+            <p>You have no bids</p>
+            
+            {% endfor %}
+        {% else %}
+        <p>You have no bids.</p>
+        {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endif %}
+{% endblock %}

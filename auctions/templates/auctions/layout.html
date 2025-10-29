@@ -20,6 +20,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
                 <a class="nav-link" href="{% url 'create_product' %}">Create Auction</a>
+                <a class="nav-link" href="{% url 'display_watchlist' %}">My Watchlist</a>
+                <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
@@ -35,7 +38,27 @@
             {% endif %}
         </ul>
         <hr>
+        {% if messages %}
+        <div class='messages'>
+            {% for message in messages %}
+                <div class='message {{ messsage.tags }}'>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         {% block body %}
+
         {% endblock %}
+        <script>
+        setTimeout(() => {
+            document.querySelectorAll('.message').forEach(msg => {
+            msg.style.transition = 'opacity 0.5s';
+            msg.style.opacity = '0';
+            setTimeout(() => msg.remove(), 500);
+            });
+        }, 3000);
+        </script>
     </body>
 </html>

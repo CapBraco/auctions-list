@@ -6,12 +6,17 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     pass
 
-
+class Category(models.Model):
+    name = models.CharField(max_length=40, unique=True)
+    def __str__(self):
+        return f"{self.name}"
+    
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
     name = models.CharField(max_length=64)
-    description = models.TextField(max_length=500)
-    category = models.CharField(max_length=20, default='other')
+    description = models.TextField(max_length=64)
+    long_description = models.TextField(max_length=1000)
+    categories = models.ManyToManyField(Category, related_name='products')
     image = models.ImageField(upload_to='images/', blank=True, default='images/default.svg')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -37,7 +42,6 @@ class Auction(models.Model):
 
     def __str__(self):
         return f"{self.product.name} ({self.get_auction_status_display()}) - ${self.current_price}"
-
 
 class Bid(models.Model):
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name='bids')
